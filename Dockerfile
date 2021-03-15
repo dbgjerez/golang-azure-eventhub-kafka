@@ -1,0 +1,21 @@
+FROM golang:1.15-alpine
+
+ENV APP_NAME=golang-azure-eventhub-kafka
+ENV GIN_MODE=release
+ENV KAFKA_SASL_USER=
+ENV KAFKA_SASL_PASSWORD=
+ENV KAFKA_BROKERS=
+ENV KAFKA_CONSUMER_GROUP=
+ENV KAFKA_CONSUMER_TOPIC=
+ENV PORT=8080
+
+WORKDIR /go/src/app
+COPY . .
+
+RUN go get -d -v ./...
+RUN go install -v ./...
+RUN rm -rf /go/src/app
+
+EXPOSE $PORT
+
+ENTRYPOINT $APP_NAME
